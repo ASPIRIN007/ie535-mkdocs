@@ -12,8 +12,8 @@
 !!! tip "Def box — Linear Program (LP)"
     A **linear program (LP)** optimizes a **linear** objective over **linear** constraints.
 
-    - **Objective (cost):** linear form \(\,c^\mathsf{T}x\,\).
-    - **Constraints:** linear equalities/inequalities such as \(\,Ax \le b\), \(\,Ax=b\), \(\,Ax \ge b\).
+    - **Objective (cost):** linear form \(c^\mathsf{T}x\).
+    - **Constraints:** linear equalities/inequalities such as \(Ax \le b\), \(Ax=b\), \(Ax \ge b\).
 
 ## Common terminology
 
@@ -31,29 +31,29 @@ Let \(x\in\mathbb{R}^n\) be the decision vector.
 
 You will see many equivalent “faces” of an LP, for example:
 
-\[
+$$
 \begin{aligned}
 \min \ & c^\mathsf{T}x \\
 \text{s.t. } & Ax \le b,\quad x \in \mathbb{R}^n.
 \end{aligned}
-\]
+$$
 
 or with mixed signs/equalities:
 
-\[
+$$
 Ax \le b,\quad A'x=b',\quad x \ge 0,\quad x_j\ \text{free},\ \text{etc.}
-\]
+$$
 
 !!! tip "Def box — Standard form LP"
     A common **standard form LP** is
 
-    \[
+    $$
     \begin{aligned}
     \min \ & c^\mathsf{T}x\\
     \text{s.t. } & Ax=b,\\
     & x\ge 0.
     \end{aligned}
-    \]
+    $$
 
     Many algorithms (simplex, interior-point) are developed for, or easily reduced to, this form.
 
@@ -62,32 +62,36 @@ Ax \le b,\quad A'x=b',\quad x \ge 0,\quad x_j\ \text{free},\ \text{etc.}
 These are the core modeling moves.
 
 !!! example "Minimization vs maximization"
-    \[
+    $$
     \max \ c^\mathsf{T}x \quad \Longleftrightarrow \quad \min \ (-c)^\mathsf{T}x.
-    \]
+    $$
 
 !!! example "Equality to two inequalities"
-    \[
+    $$
     a^\mathsf{T}x = \beta \quad \Longleftrightarrow \quad
     a^\mathsf{T}x \le \beta \ \text{and}\ a^\mathsf{T}x \ge \beta.
-    \]
+    $$
 
 !!! example "Inequalities to equalities (slack / surplus)"
     - If \(a^\mathsf{T}x \le \beta\), introduce **slack** \(s\ge 0\):
-      \[
-      a^\mathsf{T}x + s = \beta,\quad s\ge 0.
-      \]
+
+      $$
+      a^\mathsf{T}x + s = \beta,\qquad s\ge 0.
+      $$
 
     - If \(a^\mathsf{T}x \ge \beta\), introduce **surplus** \(s\ge 0\):
-      \[
-      a^\mathsf{T}x - s = \beta,\quad s\ge 0.
-      \]
+
+      $$
+      a^\mathsf{T}x - s = \beta,\qquad s\ge 0.
+      $$
 
 !!! example "Free variable as difference of nonnegatives"
     If \(x_i\) is unrestricted in sign, write
-    \[
+
+    $$
     x_i = x_i^+ - x_i^-,\qquad x_i^+\ge 0,\ \ x_i^-\ge 0.
-    \]
+    $$
+
     Replace \(x_i\) everywhere with \(x_i^+ - x_i^-\).
 
 !!! info "Key box — Equivalence idea"
@@ -105,30 +109,37 @@ We often need to linearize \(|u|\) where \(u\) is affine (e.g., \(u=a^\mathsf{T}
 
 !!! example "Method A (epigraph / z-method)"
     Introduce \(z\ge 0\) with
-    \[
+
+    $$
     z \ge u,\qquad z \ge -u.
-    \]
+    $$
+
     Then \(z\ge |u|\). If you minimize \(z\) (or \(z\) has nonnegative weight in the objective), the optimum forces \(z=|u|\).
 
 !!! example "Method B (split / \(u^+,u^-\) method)"
     Introduce \(u^+,u^-\ge 0\) with
-    \[
+
+    $$
     u = u^+ - u^-,\qquad |u| = u^+ + u^- \ (\text{at optimum}).
-    \]
+    $$
+
     Replace \(|u|\) with \(u^+ + u^-\).
 
 ## Piecewise-linear convex costs
 
 If \(f(\cdot)\) is piecewise-linear and convex, it can be written as a maximum of affine functions:
-\[
+
+$$
 f(t) = \max_{k=1,\dots,K}\{\alpha_k t + \beta_k\}.
-\]
+$$
 
 !!! example "LP epigraph form"
     Introduce \(z\) and enforce
-    \[
+
+    $$
     z \ge \alpha_k t + \beta_k,\quad k=1,\dots,K.
-    \]
+    $$
+
     Minimizing \(z\) (or adding \(z\) to the objective) models \(f(t)\).
 
 ## Data fitting (two classic LP norms)
@@ -138,43 +149,52 @@ Given data \((a_i,b_i)\) and prediction \(\hat b_i = a_i^\mathsf{T}x\).
 !!! example "\(\ell_\infty\) (minimax) fit"
     Residual \(r_i=b_i-a_i^\mathsf{T}x\). Minimize \(\max_i |r_i|\):
 
-    \[
+    $$
     \min z \quad \text{s.t.}\quad |b_i-a_i^\mathsf{T}x| \le z,\ \ i=1,\dots,m.
-    \]
+    $$
 
     Linearize:
-    \[
+
+    $$
     b_i-a_i^\mathsf{T}x \le z,\qquad -(b_i-a_i^\mathsf{T}x)\le z.
-    \]
+    $$
 
 !!! example "\(\ell_1\) fit"
-    \[
+    $$
     \min \sum_{i=1}^m |b_i-a_i^\mathsf{T}x|.
-    \]
+    $$
+
     Introduce \(z_i\ge 0\):
-    \[
+
+    $$
     b_i-a_i^\mathsf{T}x \le z_i,\quad -(b_i-a_i^\mathsf{T}x)\le z_i,\quad i=1,\dots,m,
-    \]
+    $$
+
     and minimize \(\sum_i z_i\).
 
 ## Multi-period planning / capacity expansion pattern
 
 !!! info "Key box — Windowed-sum time coupling"
     Time-coupling constraints often look like
-    \[
+
+    $$
     \text{available}_t = \sum_{s=\max(1,t-L+1)}^t \text{add}_s,
-    \]
+    $$
+
     where \(L\) is a lifetime (window length).
 
 ## Discrete-time rocket planning (absolute value objective)
 
 Dynamics:
-\[
+
+$$
 x_{t+1}=x_t+v_t,\qquad v_{t+1}=v_t+a_t,
-\]
+$$
+
 with boundary conditions \((x_0,v_0)\) and \((x_T,v_T)\).
 
 Two LP objectives:
+
 - Fuel proxy: \(\min \sum_{t=0}^{T-1} |a_t|\)
 - Peak thrust: \(\min \max_t |a_t|\)
 
@@ -239,31 +259,37 @@ A constraint \(a_i^\mathsf{T}x \le b_i\) is **active/binding** at \(x\) if \(a_i
     - \(\mathcal{N}(A)=\{x\in\mathbb{R}^n:Ax=0\}\)
 
 !!! note "Rank–nullity"
-    \[
+    $$
     \dim(\mathcal{N}(A)) = n - \mathrm{rank}(A).
-    \]
+    $$
 
 ## Affine subspaces (and why \(Ax=b\) is affine)
 
 !!! tip "Def box — Affine subspace"
     Let \(S_0\) be a linear subspace of \(\mathbb{R}^n\) and \(x^0\in\mathbb{R}^n\).
     The set
-    \[
+
+    $$
     S = S_0 + x^0 = \{x^0+s:s\in S_0\}
-    \]
+    $$
+
     is an **affine subspace**. In general it is not linear because it may not contain the origin.
     Define \(\dim(S)=\dim(S_0)\).
 
 !!! example "Why \(Ax=b\) is affine"
     If \(S=\{x:Ax=b\}\) is nonempty, pick one solution \(x^0\) with \(Ax^0=b\).
     Then
-    \[
+
+    $$
     Ax=b \iff A(x-x^0)=0 \iff x=x^0+y,\ \ y\in\mathcal{N}(A).
-    \]
+    $$
+
     Hence
-    \[
+
+    $$
     \{x:Ax=b\}=x^0+\mathcal{N}(A),
-    \]
+    $$
+
     a translation of the nullspace.
 
 # Algorithms and operation counts (Section 1.6)
@@ -284,9 +310,10 @@ Let \(A\in\mathbb{R}^{m\times n}\), \(B\in\mathbb{R}^{n\times p}\).
 
 !!! tip "Def box — Big-O"
     We write \(g(n)=O(f(n))\) if there exist constants \(C\) and \(n_0\) such that for all \(n\ge n_0\),
-    \[
+
+    $$
     |g(n)| \le C\,|f(n)|.
-    \]
+    $$
 
 !!! info "Key box"
     Later chapters compare algorithms (simplex, interior-point, decomposition) using operation counts as functions of \(m,n\) and structure (e.g., sparsity).
