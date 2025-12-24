@@ -1,0 +1,10 @@
+/* Custom admonitions */
+.md-typeset .admonition.keybox,
+.md-typeset details.keybox {
+  border-left-color: var(--md-accent-fg-color);
+}
+
+.md-typeset .admonition.defbox,
+.md-typeset details.defbox {
+  border-left-color: #00bfa5;
+}

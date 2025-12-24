@@ -44,6 +44,8 @@ nav:
   - Overview: index.md
   - Chapter 1:
       - Chapter 1: chapter1/index.md
+      - Notes: chapter1/notes.md
       - Exercise 1.1*: chapter1/ex1-1.md
   - Chapter 2:
       - Chapter 2: chapter2/index.md
+
