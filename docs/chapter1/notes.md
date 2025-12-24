@@ -1,199 +1,119 @@
-!!! info "Key box"
-    These notes are typed from my handwritten Chapter 1 notes and capture the main definitions + reformulations:
-    
-    1. General LP formulation (objective + constraint families)  
-    2. Turning equalities into inequalities and writing LP in matrix form  
-    3. Local vs global minima; convexity fact  
-    4. Piecewise-linear convex objectives and epigraph reformulation  
-    5. Absolute value modeling (two equivalent LP reformulations)  
-    6. Graphical (2D) geometry + solution method  
-    7. Subspaces, span, and affine subspaces  
-
-# Introduction: General LP Form
-
-In a general linear programming (LP) problem, we are given a cost vector
-\(c=(c_1,\dots,c_n)\) and we seek to minimize a linear function
-\(c^\mathsf{T}x=\sum_{i=1}^n c_i x_i\) over a decision vector
-\(x=(x_1,\dots,x_n)\), subject to linear equality/inequality constraints.
-
-Let \(M_1,M_2,M_3\) be finite index sets. For each constraint \(i\), we are given:
-- an \(n\)-dimensional vector \(a_i\),
-- a scalar \(b_i\),
-
-and these form the \(i\)-th linear constraint.
-
-Let \(N_1,N_2 \subseteq \{1,\dots,n\}\) indicate which variables are constrained to be nonnegative or nonpositive, respectively.
-
-!!! tip "Def box — General LP"
-    $\begin{aligned}
-    \min\ & c^\mathsf{T}x\\[2mm]
-    \text{s.t. } 
-    & a_i^\mathsf{T}x \ge b_i, && i\in M_1,\\
-    & a_i^\mathsf{T}x \le b_i, && i\in M_2,\\
-    & a_i^\mathsf{T}x = b_i, && i\in M_3,\\
-    & x_j \ge 0, && j\in N_1,\\
-    & x_j \le 0, && j\in N_2.
-    \end{aligned}$
-
-!!! info "Terminology"
-    - Variables \(x_1,\dots,x_n\) are **decision variables**.  
-    - A vector \(x\) satisfying all constraints is a **feasible solution** (feasible vector).  
-    - The set of all feasible solutions is the **feasible set / feasible region**.  
-    - If \(j\notin N_1\cup N_2\), then \(x_j\) is a **free (unrestricted) variable**.  
-    - The function \(c^\mathsf{T}x\) is the **objective function / cost function**.  
-    - A feasible solution minimizing the objective is an **optimal solution** \(x^\star\).  
-    - The value \(c^\mathsf{T}x^\star\) is the **optimal cost**.
-
-# Converting Constraints + Matrix Form
-
-## Equality as two inequalities
-
-!!! note "Equality constraint equivalence"
-    An equality constraint can be written as two inequalities:
-    $a_i^\mathsf{T}x=b_i \quad \Longleftrightarrow \quad 
-    \big(a_i^\mathsf{T}x\le b_i\big)\ \text{and}\ \big(a_i^\mathsf{T}x\ge b_i\big).$
-
-Also, constraints like \(x_j\ge 0\) or \(x_j\le 0\) can be viewed as special cases of linear inequalities.
-
-## Expressing everything as one inequality direction
-
-By multiplying some constraints by \(-1\), we can express the feasible set using inequalities of a single direction (e.g. all “\(\ge\)” constraints).
-
-!!! tip "Def box — Matrix form (one-direction inequalities)"
-    We can write an LP in matrix form as
-    $\begin{aligned}
-    \min\ & c^\mathsf{T}x\\
-    \text{s.t. } & Ax \ge b,
-    \end{aligned}$
-    where \(A\) is formed by stacking appropriate row vectors (derived from the \(a_i^\mathsf{T}\)), \(x=[x_1,\dots,x_n]^\mathsf{T}\), and \(b=[b_1,\dots,b_m]^\mathsf{T}\).
-
-# Local vs Global Minima (Convexity Fact)
-
-!!! tip "Def box — Local minimum"
-    A vector \(x\) is a **local minimum** of \(f\) if \(f(x)\le f(y)\) for all \(y\) in a neighborhood of \(x\).
-
-!!! tip "Def box — Global minimum"
-    A vector \(x\) is a **global minimum** of \(f\) if \(f(x)\le f(y)\) for all \(y\).
-
-!!! note "Key fact (convexity)"
-    A convex function cannot have a local minimum that is not a global minimum.
-
-# Piecewise-Linear Convex Functions
-
-Let \(c_1,\dots,c_m\in\mathbb{R}^n\) be vectors and \(d_1,\dots,d_m\in\mathbb{R}\) be scalars. Consider
-$f(x)=\max_{i=1,\dots,m}\big(c_i^\mathsf{T}x+d_i\big).$
+## 2.1 Polyhedra and Convex Sets
 
 !!! info "Key box"
-    The function \(f(x)=\max_i (c_i^\mathsf{T}x+d_i)\) is **convex** and is called a **piecewise-linear convex function**.
-    
-    Piecewise-linear convex functions can be used to approximate more general convex functions.
+    Section 2.1 sets up the geometry language used throughout LP:
 
-## LP with piecewise-linear convex objective (epigraph trick)
+    1. A **polyhedron** is the feasible set of finitely many linear inequalities  
+    2. **Bounded vs unbounded** sets (can the feasible region extend to infinity?)  
+    3. **Hyperplanes** (equalities) and **halfspaces** (inequalities)  
+    4. **Convexity**: the line segment between feasible points stays feasible  
+    5. **Convex combinations** and the **convex hull**  
+    6. Closure facts (Theorem 2.1): intersections preserve convexity; polyhedra are convex  
 
-Consider the problem:
-$\min\ \max_{i=1,\dots,m}(c_i^\mathsf{T}x+d_i)
-\quad \text{s.t.}\quad Ax\ge b.$
+---
 
-Introduce \(z\) as the smallest number satisfying \(z\ge c_i^\mathsf{T}x+d_i\) for all \(i\). Then we can reformulate as an LP:
+### Polyhedra (feasible sets of LP constraints)
 
-!!! example "Epigraph reformulation"
-    $\begin{aligned}
-    \min\ & z\\
-    \text{s.t. } & z \ge c_i^\mathsf{T}x+d_i,\quad i=1,\dots,m,\\
-    & Ax\ge b.
-    \end{aligned}$
+!!! tip "Def box — Polyhedron"
+    A **polyhedron** is any set that can be written as
+    $P=\{x\in\mathbb{R}^n \mid Ax \ge b\},$
+    i.e., the set of vectors satisfying finitely many linear inequalities.
 
-## Constraint of the form \(f(x)\le h\)
+**Interpretation:** each inequality is a “cut” of the space; the feasible region is what remains after applying all cuts.
 
-If \(f\) is piecewise-linear convex,
-$f(x)=\max_{i=1,\dots,m}(f_i^\mathsf{T}x+g_i),$
-then a constraint \(f(x)\le h\) can be written as the system:
-$f_i^\mathsf{T}x+g_i\le h,\quad i=1,\dots,m.$
+---
 
-# Problems Involving Absolute Values
+### Boundedness
 
-Consider:
-$\min \sum_{i=1}^n c_i|x_i| \quad \text{s.t.}\quad Ax\ge b.$
+!!! tip "Def box — Bounded set"
+    A set $S\subseteq\mathbb{R}^n$ is **bounded** if there exists a constant $K$ such that
+    $|x_i|\le K$ for every $x\in S$ and each component $i$.
 
-## LP formulation A: introduce \(z_i\) (absolute value linearization)
+- **Bounded polyhedron:** trapped inside some big box.  
+- **Unbounded polyhedron:** you can move infinitely far in some direction while staying feasible.
 
-!!! example "Absolute value via \(z_i\)"
-    Introduce \(z_i\ge 0\) such that \(z_i\ge |x_i|\) using:
-    $x_i \le z_i,\qquad -x_i \le z_i,\qquad i=1,\dots,n.$
-    Then the LP becomes:
-    $\begin{aligned}
-    \min\ & \sum_{i=1}^n c_i z_i\\
-    \text{s.t. } & Ax\ge b,\\
-    & x_i \le z_i,\ \ -x_i \le z_i,\quad i=1,\dots,n.
-    \end{aligned}$
+**Why it matters later:** unboundedness can lead to LPs with no finite optimum (depending on the objective direction).
 
-## LP formulation B: split variables \(x=x^+-x^-\)
+---
 
-Write each \(x_i\) as difference of two nonnegative variables:
-\(x_i=x_i^+-x_i^-\) with \(x_i^+,x_i^-\ge 0\). Then \(|x_i|=x_i^++x_i^-\).
+### Hyperplanes and Halfspaces (single linear constraints)
 
-!!! example "Absolute value via split variables"
-    Replace:
-    $x = x^+ - x^-,$
-    and
-    $|x_i| = x_i^+ + x_i^-.$
-    Then:
-    $\begin{aligned}
-    \min\ & \sum_{i=1}^n c_i(x_i^+ + x_i^-)\\
-    \text{s.t. } & A x^+ - A x^- \ge b,\\
-    & x^+\ge 0,\ \ x^-\ge 0.
-    \end{aligned}$
+Let $a\neq 0$ and $b\in\mathbb{R}$.
 
-# Graphical Representation and Solution (2D)
+!!! tip "Def box — Hyperplane"
+    The **hyperplane** with normal $a$ and offset $b$ is
+    $H=\{x\in\mathbb{R}^n \mid a^\mathsf{T}x=b\}.$
 
-## Core geometry
+!!! tip "Def box — Halfspace"
+    The **halfspace** defined by the inequality is
+    $S=\{x\in\mathbb{R}^n \mid a^\mathsf{T}x\ge b\}.$
 
-Let the feasible set be
-$P=\{x\mid Ax\le b\}.$
+**Key geometric facts**
+- The hyperplane $a^\mathsf{T}x=b$ is the **boundary** of the halfspace $a^\mathsf{T}x\ge b$.  
+- The vector $a$ is **perpendicular (normal)** to the hyperplane:
 
-!!! info "Key box — Core geometry"
-    - \(P\) is a **polyhedron** (intersection of half-spaces).  
-    - In 2D, \(P\) is a **polygonal region** (possibly unbounded).  
-    - Each inequality \(a_i^\mathsf{T}x\le b_i\) defines a **half-plane**.  
-    - The boundary \(a_i^\mathsf{T}x=b_i\) is a **line**.
+  If $x,y\in H$, then $a^\mathsf{T}x=b$ and $a^\mathsf{T}y=b$, so
+  $a^\mathsf{T}(x-y)=0,$
+  meaning any direction along the hyperplane is orthogonal to $a$.
 
-!!! tip "Def box — Corner/vertex"
-    A **corner / vertex** is a point in \(P\) that cannot be written as a nontrivial convex combination of other feasible points.
+**Polyhedron viewpoint**
+$P=\{x\mid Ax\ge b\}$
+is the **intersection of finitely many halfspaces** (one per row of $A$).
 
-!!! tip "Def box — Edge/face"
-    An **edge/face** is the set of feasible points where some constraints hold with equality.
+---
 
-## Objective geometry and the graphical method (2D)
+### Convex Sets (the main structural property)
 
-Consider objective level sets:
-$c^\mathsf{T}x=\alpha.$
+!!! tip "Def box — Convex set"
+    A set $S\subseteq\mathbb{R}^n$ is **convex** if for any $x,y\in S$ and any $\lambda\in[0,1]$,
+    $\lambda x + (1-\lambda)y\in S.$
+    (Equivalently: the whole line segment between any two points in $S$ lies in $S$.)
 
-!!! example "Graphical method (2D)"
-    1. Plot each constraint boundary line and choose the correct feasible half-plane.  
-    2. Find the intersection polygon (the feasible region).  
-    3. Slide the objective line \(c^\mathsf{T}x=\alpha\) outward (in the improving direction) until the last point of contact with the feasible region.  
-    4. That last contact point (or contact edge) gives the optimum.
+**Why convexity matters for LP**
+- If $x$ and $y$ are feasible, then any “mix” of them is feasible.  
+- This property is fundamental for later results like “an optimum occurs at a corner/extreme point.”
 
-# Subspaces and Span
+---
 
-!!! tip "Def box — Subspace"
-    A nonempty subset \(S\subseteq \mathbb{R}^n\) is a **subspace** of \(\mathbb{R}^n\) if for every \(x,y\in S\) and every \(a,b\in\mathbb{R}\),
-    $ax+by\in S.$
-    If \(S\ne \mathbb{R}^n\), then \(S\) is a **proper subspace**.
+### Convex combinations and convex hull
 
-!!! note "Key property"
-    Every subspace contains the zero vector.
+!!! tip "Def box — Convex combination"
+    A vector $z$ is a **convex combination** of $x^1,\dots,x^k$ if
+    $z=\sum_{i=1}^k \lambda_i x^i,$
+    where $\lambda_i\ge 0$ and $\sum_{i=1}^k \lambda_i = 1.$
 
-!!! tip "Def box — Span"
-    The span of vectors \(y^1,\dots,y^K\in\mathbb{R}^n\) is the set
-    $\mathrm{span}\{y^1,\dots,y^K\}
-      =\left\{\sum_{k=1}^K a_k y^k \;:\; a_k\in\mathbb{R}\right\}.$
+!!! tip "Def box — Convex hull"
+    The **convex hull** of points $x^1,\dots,x^k$ is the set of all their convex combinations:
+    $\mathrm{conv}\{x^1,\dots,x^k\}
+    =
+    \left\{\sum_{i=1}^k \lambda_i x^i \; \middle|\;
+    \lambda_i\ge 0,\ \sum_{i=1}^k\lambda_i=1\right\}.$
+    It is the **smallest convex set** containing those points.
 
-# Affine Subspaces
+---
 
-Let \(S_0\) be a subspace of \(\mathbb{R}^n\) and let \(x^0\in\mathbb{R}^n\). Define:
-$S = S_0 + x^0 = \{s + x^0 \mid s\in S_0\}.$
+### Theorem 2.1 (closure properties you’ll use repeatedly)
 
-!!! tip "Def box — Affine subspace"
-    In general, \(S\) is **not** a subspace because it may not contain the zero vector.  
-    Such a translated set \(S=S_0+x^0\) is called an **affine subspace**.
+!!! success "Theorem box — Basic convexity facts"
+    1. The **intersection** of convex sets is convex.  
+    2. Every **polyhedron** is convex.  
+       (Halfspaces are convex, and a polyhedron is an intersection of halfspaces.)  
+    3. If $S$ is convex and $x^1,\dots,x^k\in S$, then every **convex combination**
+       $\sum_{i=1}^k \lambda_i x^i$ lies in $S$.  
+    4. The **convex hull** of finitely many points is convex.
+
+!!! note "Proof idea (what to remember)"
+    - Halfspace convexity: if $a^\mathsf{T}x\ge b$ and $a^\mathsf{T}y\ge b$, then  
+      $a^\mathsf{T}(\lambda x+(1-\lambda)y)
+      =\lambda a^\mathsf{T}x+(1-\lambda)a^\mathsf{T}y
+      \ge \lambda b+(1-\lambda)b=b.$  
+    - Intersections preserve convexity: if the segment stays in each set, it stays in their intersection.
+
+---
+
+!!! info "Section 2.1 — Exam checklist"
+    - A feasible set of linear inequalities is a **polyhedron**: $P=\{x\mid Ax\ge b\}$.  
+    - Each inequality defines a **halfspace**; equalities define **hyperplanes**.  
+    - Polyhedra are **convex** (intersection of convex halfspaces).  
+    - **Bounded** means contained in a box; **unbounded** means it extends to infinity.  
+    - **Convex combination** and **convex hull** formalize “mixing” feasible points.
