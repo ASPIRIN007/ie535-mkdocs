@@ -12,6 +12,7 @@ theme:
   logo: assets/cover.png
   features:
     - navigation.sections
+    - navigation.expand
     - navigation.top
     - navigation.instant
     - search.suggest
