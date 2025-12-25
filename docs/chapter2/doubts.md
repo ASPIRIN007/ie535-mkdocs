@@ -119,3 +119,80 @@ $x=
 So $Q\ne\emptyset$ but $P=\emptyset$.
 
 **Conclusion:** If the original feasible set is empty, removing “dependent” equality constraints can create new feasible points, so the nonempty assumption in Theorem 2.5 is necessary.
+
+
+# Degeneracy can depend on how we *represent* the same feasible set
+
+!!! info "Key box"
+    These examples show an important subtlety:
+
+    - The *same geometric polyhedron* can sometimes be written with different constraint sets.  
+    - Under one representation, a BFS may look **degenerate** (too many active constraints).  
+    - Under another representation, the *same point* may look **nondegenerate**.
+
+---
+
+## Example 1: Same feasible set, different “standard form” representations
+
+Consider the (standard form style) polyhedron
+$P=\{(x_1,x_2,x_3)\mid x_1-x_2=0,\ x_1+x_2+2x_3=2,\ x_1,x_2,x_3\ge 0\}.$
+
+Here $n=3$, there are $m=2$ equality constraints, so $n-m=1$.
+In standard form, a **nondegenerate** BFS should have exactly $n-m=1$ variable equal to zero.
+
+- The point $(1,1,0)$ is **nondegenerate** because exactly one variable is zero ($x_3=0$).
+- The point $(0,0,1)$ is **degenerate** because two variables are zero ($x_1=x_2=0$).
+
+Now write the *same* polyhedron using fewer nonnegativity constraints:
+$P=\{(x_1,x_2,x_3)\mid x_1-x_2=0,\ x_1+x_2+2x_3=2,\ x_1\ge 0,\ x_3\ge 0\}.$
+
+!!! note "What changed?"
+    We dropped the explicit constraint $x_2\ge 0$.  
+    (Because $x_2=x_1$ from $x_1-x_2=0$, the nonnegativity of $x_2$ is implied by $x_1\ge 0$.)
+
+Under this second representation, the point $(0,0,1)$ becomes **nondegenerate**:
+- At $(0,0,1)$, we now have only **three active constraints**:
+  - $x_1-x_2=0$ (active as equality)
+  - $x_1+x_2+2x_3=2$ (active as equality)
+  - $x_1\ge 0$ active because $x_1=0$
+- There is no longer an explicit $x_2\ge 0$ constraint to be active.
+
+So the “degeneracy label” of the same BFS can change when we rewrite constraints.
+
+---
+
+## Example 2: Adding redundant inequalities can force degeneracy
+
+Start with a standard form polyhedron
+$P=\{x\mid Ax=b,\ x\ge 0\}$
+with $A\in\mathbb{R}^{m\times n}$.
+
+Let $x^\*$ be a **nondegenerate** BFS under this representation.
+That means:
+- exactly $n-m$ components of $x^\*$ are equal to $0$, and
+- the number of active constraints at $x^\*$ is exactly $n$.
+
+Now represent the *same feasible set* by converting $Ax=b$ into two-sided inequalities:
+$P=\{x\mid Ax\ge b,\ -Ax\ge -b,\ x\ge 0\}.$
+
+!!! warning "What happens at $x^\*$ now?"
+    At any feasible point, $Ax=b$ implies both
+    $Ax\ge b$ and $-Ax\ge -b$ hold **with equality**.
+    So we add **$2m$ active inequality constraints** automatically.
+
+At the point $x^\*$:
+- we still have the $n-m$ active constraints from $x\ge 0$ (the zero variables),
+- and now we also have **$2m$ active constraints** from the two-sided inequality representation of $Ax=b$.
+
+Total active constraints at $x^\*$:
+$(n-m) + 2m = n+m,$
+which is strictly larger than $n$ (since $m>0$).
+
+Therefore, under this second representation, $x^\*$ becomes **degenerate**.
+
+---
+
+!!! info "Conclusion"
+    A BFS that is degenerate under one representation might be nondegenerate under another.
+
+    However (important caveat): if a BFS is degenerate under one **standard form** representation, it can be shown it remains degenerate under every standard form representation of the same polyhedron.

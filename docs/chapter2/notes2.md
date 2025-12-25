@@ -396,7 +396,8 @@ constraint $i$ is **active** at $x$ if $a_i^\mathsf{T}x=b_i$.
 !!! warning "Why degeneracy matters"
     Degeneracy is the main reason:
     - distinct bases can yield the **same** BFS, and  
-    - simplex-type methods may “pivot” without changing the point (important in later chapters).
+    - Degeneracy of a basic feasible solution is not in general, a geometric property but rather it may depend on the particular representation of polyhedron. 
+    - A basic feasible solution which is non-degenerate under one representation can be degenerate under other representatio.(See doubts section)
 
 ---
 
