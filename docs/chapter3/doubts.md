@@ -1,4 +1,5 @@
-# Quick fixes for recurring confusions 
+```md
+# Quick fixes for recurring confusions
 
 ## 1) “How can a vector $x$ have a rank? It’s not a matrix.”
 **Fix:** A *vector* doesn’t have rank (in the matrix-rank sense).  
@@ -27,13 +28,16 @@ That implication is **not automatically true** for arbitrary $y,z$. It’s true 
 - $y$ and $z$ are both **optimal solutions** (i.e., they *attain* the minimum).
 
 Then by definition:
-$
+
+$$
 v \le c^\top y,\quad v \le c^\top z,
-$
+$$
+
 and if $y,z$ are optimal, equality holds:
-$
+
+$$
 c^\top y=v,\quad c^\top z=v.
-$
+$$
 
 ---
 
@@ -63,7 +67,7 @@ Careful: there are multiple “systems” here.
 
 - For **equality constraints** $Ax=b$, feasibility depends on whether $b$ lies in the column space of $A$.  
   - If $\mathrm{rank}(A)<m$, it does **not** automatically mean infeasible. It means some rows are dependent (constraints redundant or inconsistent depending on $b$).  
-  - In general: feasibility ⇔ $Ax=b$ is consistent.
+  - In general: feasibility $\iff$ $Ax=b$ is consistent.
 
 - For standard form $Ax=b, x\ge 0$, feasibility is stricter: even if $Ax=b$ is consistent, you may have **no nonnegative** solution.
 
@@ -71,26 +75,29 @@ Careful: there are multiple “systems” here.
 
 ## 7) “Set $S$ is convex — what exactly does that mean?”
 Definition:
-$
+
+$$
 S \text{ convex } \iff \forall x,y\in S,\ \forall \lambda\in[0,1],\ \lambda x+(1-\lambda)y\in S.
-$
+$$
+
 Geometric meaning: line segment between any two points in $S$ stays inside $S$.
 
 ---
 
 ## 8) “Why do we introduce reduced costs in simplex?”
 Reduced cost $\bar c_j$ is the **instantaneous rate** of objective change when we try to increase a nonbasic variable $x_j$ from zero while keeping feasibility:
-$
+
+$$
 \bar c_j = c_j - c_B^\top B^{-1}A_j.
-$
+$$
+
 - If $\bar c_j < 0$ and the BFS is nondegenerate, then moving in that basic direction decreases cost (profitable entering variable).
-- If all $\bar c_j \ge 0$, no edge from that BFS improves the cost ⇒ optimal (nondegenerate case).
+- If all $\bar c_j \ge 0$, no edge from that BFS improves the cost $\Rightarrow$ optimal (nondegenerate case).
 
 ---
 
 ### Add more doubts as we go
 Whenever you ask a question that feels like a “recurring confusion,” I’ll append it here with the cleanest explanation + any small example we used.
-
 
 ---
 
@@ -107,22 +114,23 @@ Two standard anticycling rules in this chapter:
 - **Lexicographic pivoting:** break ratio-test ties by comparing normalized tableau rows lexicographically; this makes the objective row increase lexicographically each pivot, so repetition is impossible.
 - **Bland’s rule:** choose the entering variable with smallest index, and among tied leaving choices choose the smallest index; this also prevents cycling.
 
-
 ---
 
 ## 12) “What is the auxiliary-variable (Phase I) method, and why minimize $\sum y_i$?”
 When the LP is in standard form
-$
+
+$$
 Ax=b,\quad x\ge 0,
-$
+$$
+
 we may not have an obvious starting BFS. We introduce artificial variables $y\ge 0$ and solve:
 
-$
+$$
 \min\ \sum_{i=1}^m y_i
 \quad \text{s.t.}\quad
 Ax+y=b,\;
 x\ge 0,\ y\ge 0.
-$
+$$
 
 - This auxiliary LP always has an easy BFS: $x=0$, $y=b$ (assuming $b\ge 0$).
 - If the original system has a feasible $x\ge 0$ with $Ax=b$, then $(x,0)$ is feasible for the auxiliary LP and gives objective 0.
@@ -149,20 +157,23 @@ Repeat until all artificial variables are out of the basis.
 
 In practice, two-phase is often preferred for numerical stability (big-$M$ can require dangerously large constants in floating point arithmetic).
 
-
 ---
 
 ## 15) “Why do they add the convexity constraint $e^\top x=1$ in the geometry section?”
 With $x\ge 0$ and $e^\top x=1$, the vector $x$ becomes a set of **convex combination weights**.
 
 Then:
-$
+
+$$
 b=Ax=\sum_i x_i A_i
-$
+$$
+
 means $b$ lies in the convex hull of the columns $A_i$, and
-$
+
+$$
 z=c^\top x=\sum_i x_i c_i
-$
+$$
+
 means $(b,z)$ lies in the convex hull of the lifted points $(A_i,c_i)$.
 
 That makes the geometry clean: feasibility becomes “does the vertical requirement line through $b$ intersect the convex hull?”
@@ -172,9 +183,11 @@ The book notes that any bounded LP can be transformed into this form (exercise),
 
 ## 16) “What is the requirement line?”
 It is the vertical line in $(m+1)$-dimensional space:
-$
+
+$$
 \{(b,z)\mid z\in\mathbb{R}\},
-$
+$$
+
 where $b$ is fixed by the constraints $Ax=b$.
 Feasible solutions correspond to intersection points of this line with the convex hull of $(A_i,c_i)$, and the optimal solution is the lowest intersection point.
 
@@ -197,3 +210,4 @@ Theory section 3.7 separates:
 - **number of iterations** (can be exponential in worst case).
 
 Average-case behavior depends on the probabilistic model for “random LP,” so it’s harder to state universal guarantees.
+```
