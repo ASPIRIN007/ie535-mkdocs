@@ -5,9 +5,9 @@
 
 We consider the **standard form** linear program:
 
-$$
+$
 \min \; c^\top x \quad \text{s.t.}\quad Ax=b,\; x\ge 0,
-$$
+$
 
 - $A$ is $m\times n$ and its **rows are linearly independent** (rank $m$).  
 - $P=\{x\in\mathbb{R}^n\mid Ax=b,\;x\ge 0\}$ is the feasible set.  
@@ -29,19 +29,19 @@ So if, at a feasible point, you cannot move in any feasible direction that decre
 
 **Definition (Feasible direction at $x$)**  
 A vector $d\in\mathbb{R}^n$ is a feasible direction at $x\in P$ if there exists $\varepsilon>0$ such that
-$$
+$
 x+\theta d \in P \quad \text{for all } \theta\in[0,\varepsilon].
-$$
+$
 
 **Key constraints for a feasible direction**
 - Equality constraints: since $Ax=b$, moving must keep $Ax$ unchanged:
-  $$
+  $
   A(x+\theta d)=b\ \forall \theta \ \Rightarrow\ Ad=0.
-  $$
+  $
 - Nonnegativity: for each component where $x_i=0$, you cannot decrease it:
-  $$
+  $
   x_i=0 \ \Rightarrow\ d_i\ge 0.
-  $$
+  $
 (That second condition is formalized later as an exercise in the book; it’s the clean algebraic description of Figure 3.1.)
 
 ---
@@ -51,15 +51,15 @@ $$
 Let $x$ be a **basic feasible solution (BFS)**. That means:
 - There is an index set of **basic variables** $B=\{B(1),\dots,B(m)\}$.
 - The corresponding **basis matrix**
-  $$
+  $
   B=[A_{B(1)}\ \cdots\ A_{B(m)}]
-  $$
+  $
   is invertible.
 - All **nonbasic** variables are at zero: $x_j=0$ for $j\notin B$.
 - The basic variables satisfy:
-  $$
+  $
   x_B = B^{-1}b.
-  $$
+  $
 
 Now pick a **nonbasic** index $j\notin B$.  
 A natural “edge move” from a BFS is: increase $x_j$ from 0, while keeping all other nonbasic variables at 0.
@@ -70,9 +70,9 @@ Construct a direction $d$ by:
 - choose $d_B$ so that $Ad=0$.
 
 Since $Ad = Bd_B + A_j = 0$, we get the **basic-direction formula**:
-$$
+$
 d_B = -B^{-1}A_j.
-$$
+$
 This is equation (3.1) in the text.
 
 > Intuition: increasing $x_j$ forces a compensating change in the basic variables so that $Ax=b$ remains true.
@@ -99,22 +99,22 @@ Even if $Ad=0$, the move can violate $x\ge 0$.
 Suppose we move along the $j$-th basic direction $d$.  
 The objective change rate is:
 
-$$
+$
 c^\top d = c_B^\top d_B + c_j.
-$$
+$
 
 Using $d_B=-B^{-1}A_j$,
 
-$$
+$
 c^\top d = c_j - c_B^\top B^{-1}A_j.
-$$
+$
 
 This motivates:
 
 **Definition (Reduced cost of variable $x_j$)**
-$$
+$
 \bar c_j \;=\; c_j - c_B^\top B^{-1}A_j.
-$$
+$
 
 Interpretation:
 - $c_j$: direct cost per unit increase in $x_j$.
@@ -122,9 +122,9 @@ Interpretation:
 
 **Important fact:** reduced costs of *basic* variables are zero.  
 Reason: if $j=B(i)$ is basic, then $B^{-1}A_{B(i)}=e_i$ (the $i$-th unit vector), so:
-$$
+$
 \bar c_{B(i)} = c_{B(i)} - c_B^\top e_i = c_{B(i)}-c_{B(i)}=0.
-$$
+$
 
 ---
 
@@ -132,27 +132,27 @@ $$
 
 For the LP:
 
-$$
+$
 \min\ c_1x_1+c_2x_2+c_3x_3+c_4x_4
-$$
-$$
+$
+$
 \text{s.t.}\quad 
 x_1+x_2+x_3+x_4=2,\quad
 2x_1+3x_3+4x_4=2,\quad x\ge 0,
-$$
+$
 
 Choose $x_1,x_2$ basic. Then:
 
-$$
+$
 B=\begin{bmatrix}1&1\\2&0\end{bmatrix},\qquad x_3=x_4=0.
-$$
+$
 Solve $Bx_B=b$ to get $x_1=1,\ x_2=1$ (nondegenerate).
 
 For entering $x_3$: $A_3=(1,3)^\top$.  
 Direction:
-$$
+$
 d_3=1,\ d_4=0,\ d_B=-B^{-1}A_3.
-$$
+$
 The objective rate along this direction equals the reduced cost $\bar c_3$.
 
 ---
@@ -227,19 +227,19 @@ Assume we are using a **full tableau** (so each basic row is visible).
 
 Fix an entering column $j$.  
 Let the pivot column entries in the constraint rows be
-$$
+$
 u_i = (B^{-1}A_j)_i.
-$$
+$
 
 Among rows with $u_i>0$, the usual ratio test looks at $\dfrac{x_{B(i)}}{u_i}$ and chooses the minimum.
 If there is a tie, the lexicographic rule breaks ties as follows:
 
 **Lexicographic leaving rule:** choose the pivot row $\ell$ such that $u_\ell>0$ and
-$$
+$
 \frac{\text{row }\ell}{u_\ell} \prec \frac{\text{row }i}{u_i}
 \quad \text{for every } i\ne \ell \text{ with } u_i>0.
 \tag{3.5}
-$$
+$
 
 In words: divide each candidate row by its pivot-column entry, then pick the row whose normalized row is **lexicographically smallest**.
 
@@ -250,11 +250,11 @@ In words: divide each candidate row by its pivot-column entry, then pick the row
 Suppose the pivot column is $j=3$.
 
 Assume two rows tie in the ratio test:
-$$
+$
 \frac{x_{B(1)}}{u_1} = \frac{1}{3},
 \qquad
 \frac{x_{B(3)}}{u_3} = \frac{3}{9} = \frac{1}{3}.
-$$
+$
 
 So we divide the candidate rows by their pivot entries:
 - row 1 divided by $u_1=3$,
@@ -262,9 +262,9 @@ So we divide the candidate rows by their pivot entries:
 
 and then compare the normalized rows lexicographically.
 If the comparison yields (as in the book) something like
-$$
+$
 \frac{7}{9} < \frac{5}{3},
-$$
+$
 then row 3 is lexicographically smaller, so **row 3 leaves**.
 
 **Important subtle point:** under the standing assumption that $A$ has linearly independent rows, this rule leads to a **unique** leaving row.  
@@ -340,13 +340,13 @@ Sometimes a BFS is **obvious**; often it is not.
 ### 3.5.2 Easy case: inequalities with nonnegative right-hand side
 
 If the original constraints are of the form
-$$
+$
 Ax \le b, \quad b\ge 0,
-$$
+$
 introduce **slack variables** $s\ge 0$:
-$$
+$
 Ax+s=b.
-$$
+$
 
 Then the point
 - $x=0$,
@@ -360,27 +360,27 @@ So we immediately have a BFS.
 ### 3.5.3 General case: use an auxiliary (Phase I) problem
 
 Now consider standard form
-$$
+$
 \min\ c^\top x \quad \text{s.t.}\quad Ax=b,\; x\ge 0,
-$$
+$
 and assume (after possibly multiplying some equalities by $-1$) that
-$$
+$
 b\ge 0.
-$$
+$
 
 If there is no obvious BFS, we introduce **artificial variables**
-$$
+$
 y\in\mathbb{R}^m,\quad y\ge 0,
-$$
+$
 and solve the **auxiliary problem** (Phase I):
 
-$$
+$
 \min\ \sum_{i=1}^m y_i
 \quad \text{s.t.}\quad
 Ax + y = b,\;
 x\ge 0,\; y\ge 0.
 \tag{Phase I}
-$$
+$
 
 #### Why this works (the key logic)
 
@@ -405,11 +405,11 @@ So Phase I is a **feasibility detector** and also provides a feasible point for 
 **Phase I**
 1. Multiply some equalities by $-1$ so that $b\ge 0$.
 2. Add artificial variables $y_1,\dots,y_m$ and solve the auxiliary LP
-   $$
+   $
    \min\ \sum_{i=1}^m y_i
    \quad \text{s.t.}\quad
    Ax+y=b,\; x\ge 0,\; y\ge 0.
-   $$
+   $
 3. If the optimal value is $>0$, stop: the original LP is **infeasible**.
 4. If the optimal value is $0$, we have found a feasible solution with $y=0$.
    - If **no artificial variable is basic** in the final basis, drop the $y$-columns and start Phase II.
@@ -431,46 +431,46 @@ So Phase I is a **feasibility detector** and also provides a feasible point for 
 ### 3.5.5 A complete worked example (two-phase, full tableau style)
 
 Consider the LP
-$$
+$
 \min\ z = x_1 + 2x_2
-$$
+$
 subject to
-$$
+$
 \begin{aligned}
 x_1 - x_2 &= 1,\\
 x_1 + x_2 + x_3 &= 3,\\
 x_1,x_2,x_3 &\ge 0.
 \end{aligned}
-$$
+$
 
 There is no obvious BFS for $Ax=b$ (you cannot set $x=0$).
 
 #### Phase I: add artificial variables
 Introduce $y_1,y_2\ge 0$:
-$$
+$
 \begin{aligned}
 x_1 - x_2 + y_1 &= 1,\\
 x_1 + x_2 + x_3 + y_2 &= 3.
 \end{aligned}
-$$
+$
 Phase I objective:
-$$
+$
 \min\ w = y_1+y_2.
-$$
+$
 
 Start BFS: $x=0$, $y=b=(1,3)$.
 
 Running tableau pivots (as shown earlier in chat), Phase I ends at
-$$
+$
 (x_1,x_2,x_3,y_1,y_2)=(2,1,0,0,0),
-$$
+$
 so $w^*=0$ and the original constraints are feasible.
 
 #### Phase II: drop $y$ and optimize original $z$
 Using the Phase I final basis as the starting basis, Phase II yields the optimal solution
-$$
+$
 (x_1,x_2,x_3)=(1,0,2),\qquad z^*=1.
-$$
+$
 
 **What to remember from this example**
 - Phase I is only about forcing $y\to 0$ (feasibility).
@@ -482,14 +482,14 @@ $$
 
 Instead of two phases, we combine them by penalizing artificial variables in the objective:
 
-$$
+$
 \min\ \sum_{j=1}^n c_j x_j + M\sum_{i=1}^m y_i,
-$$
+$
 
 subject to
-$$
+$
 Ax+y=b,\quad x\ge 0,\ y\ge 0,
-$$
+$
 where $M$ is a “very large” positive constant.
 
 **Meaning**
@@ -525,12 +525,12 @@ This section gives a geometric interpretation of simplex that explains (i) what 
 
 The book considers the problem
 
-$$
+$
 \min\ c^\top x
 \quad \text{s.t.}\quad
 Ax=b,\; e^\top x=1,\; x\ge 0,
 \tag{3.6}
-$$
+$
 
 where $e$ is the all-ones vector.
 
@@ -539,9 +539,9 @@ where $e$ is the all-ones vector.
   The point is: the geometry they build is easiest to see when $x$ is a **convex combination**.
 
 Define an auxiliary scalar variable
-$$
+$
 z=c^\top x.
-$$
+$
 
 ---
 
@@ -550,20 +550,20 @@ $$
 Let $A_1,\dots,A_n$ be the columns of $A$ and $c_1,\dots,c_n$ be the cost coefficients.
 
 Because $x\ge 0$ and $\sum_i x_i=1$,
-$$
+$
 Ax = \sum_{i=1}^n x_i A_i = b,
-$$
+$
 so $b$ is a **convex combination** of the column vectors $A_i$.
 
 Also
-$$
+$
 z=c^\top x = \sum_{i=1}^n x_i c_i.
-$$
+$
 
 So the pair $(b,z)$ is a convex combination of the lifted points
-$$
+$
 (A_i,c_i)\in\mathbb{R}^{m+1}.
-$$
+$
 
 This is the **column geometry** picture:
 - Horizontal space: $\mathbb{R}^m$ containing the columns $A_i$ and the point $b$.
@@ -578,9 +578,9 @@ Each feasible solution corresponds to a point $(b,z)$ on a vertical line above $
 The vertical line through $(b,\cdot)$ is the **requirement line**.
 
 Let $H$ be the convex hull of the lifted points:
-$$
+$
 H = \mathrm{conv}\{(A_1,c_1),\dots,(A_n,c_n)\}.
-$$
+$
 
 - The LP is feasible iff the requirement line intersects $H$.
 - Among all intersection points, the optimal solution corresponds to the **lowest** point on that intersection (smallest $z$).
@@ -597,9 +597,9 @@ So:
 ### 3.6.4 Affine independence and simplices (Definition 3.6)
 
 A collection of vectors $y^1,\dots,y^{k+1}\in\mathbb{R}^n$ is **affinely independent** if
-$$
+$
 y^1-y^{k+1},\ y^2-y^{k+1},\ \dots,\ y^k-y^{k+1}
-$$
+$
 are linearly independent.
 
 The convex hull of $k+1$ affinely independent points is a **$k$-dimensional simplex**:
@@ -699,9 +699,9 @@ So per-iteration cost can be controlled; the main theoretical difficulty is the 
 The book discusses a construction where simplex visits an exponentially long path of adjacent vertices.
 
 Start with the $n$-dimensional unit cube:
-$$
+$
 0\le x_i\le 1,\quad i=1,\dots,n,
-$$
+$
 which has $2^n$ vertices.
 
 There exists a **spanning path** that visits all $2^n$ vertices by moving along edges (Figures 3.8(a),(b) illustrate this for $n=2,3$).
@@ -709,16 +709,16 @@ With an appropriate objective and a suitable pivot rule, simplex can be forced t
 
 To make the objective strictly decrease each step, the book perturbs the cube with constraints (for some small $\varepsilon\in(0,1/2)$):
 
-$$
+$
 \varepsilon\le x_1\le 1,
 \tag{3.7}
-$$
+$
 
-$$
+$
 \varepsilon x_{i-1} \le x_i \le 1-\varepsilon x_{i-1},
 \quad i=2,\dots,n.
 \tag{3.8}
-$$
+$
 
 Then one can choose a cost (book uses $-x_n$) so that the simplex method decreases cost at every move along that spanning path.
 
@@ -738,9 +738,9 @@ To relate “number of pivots” to geometry, define adjacency graph distance.
 - Two vertices are **adjacent** if connected by an edge.
 - Let $d(x,y)$ be the minimum number of edges in a path from $x$ to $y$.
 - The **diameter** of a polyhedron $P$ is
-  $$
+  $
   D(P) = \max_{x,y\text{ vertices}} d(x,y).
-  $$
+  $
 
 Define:
 - $\Delta(n,m)$ = maximum possible diameter over all **bounded** polyhedra in $\mathbb{R}^n$ described by $m$ linear inequalities.
@@ -750,19 +750,19 @@ If every bounded polyhedron had diameter polynomial in $m,n$, then there would a
 However, simplex’s pivot rule might still fail to find the short path.
 
 **Hirsch conjecture (as stated in the book):**
-$$
+$
 \Delta(n,m) \le m-n.
-$$
+$
 
 The book notes:
 - Hirsch is **false for unbounded** polyhedra (Klee and Walkup, 1967), and gives a lower bound:
-  $$
+  $
   \Delta_u(n,m) \ge m-n+\left\lfloor\frac{n}{5}\right\rfloor.
-  $$
+  $
 - Worst-case upper bounds exist but are still large; the book quotes bounds of the form
-  $$
+  $
   \Delta(n,m) \le \Delta_u(n,m) \le m^{1+\log_2 n} = (2n)^{\log_2 m}.
-  $$
+  $
 
 So the true growth of diameters (and its relation to polynomial-time behavior) is subtle.
 
@@ -810,9 +810,9 @@ For a basis $B$:
 
 - Basic solution: $x_B=B^{-1}b$, $x_N=0$.
 - Reduced cost:
-  $$
+  $
   \bar c_j = c_j - c_B^\top B^{-1}A_j.
-  $$
+  $
 
 Key optimality condition:
 - If $\bar c_j\ge 0$ for all nonbasic $j$, the BFS is optimal.
@@ -824,9 +824,9 @@ Given an entering index $j$:
 
 - Direction: $d_B=-B^{-1}A_j$ and $d_j=1$.
 - Ratio test:
-  $$
+  $
   \theta^* = \min_{i: (B^{-1}A_j)_i>0}\ \frac{(x_B)_i}{(B^{-1}A_j)_i}.
-  $$
+  $
 
 - Leaving variable is the one achieving the minimum.
 - If no component of $B^{-1}A_j$ is positive, then $d\ge 0$ and $c^\top d<0$ ⇒ objective is unbounded below ($-\infty$).
@@ -868,12 +868,12 @@ Anticycling rules:
 If a BFS is not obvious:
 - Solve a **Phase I auxiliary LP** using artificial variables $y\ge 0$:
 
-$$
+$
 \min\ \sum_{i=1}^m y_i
 \quad \text{s.t.}\quad
 Ax+y=b,\;
 x\ge 0,\ y\ge 0.
-$$
+$
 
 - If the optimal Phase I value is $>0$: original LP infeasible.
 - If Phase I optimum is $0$: obtain a feasible basis for Phase II (drive artificial variables out if needed).
