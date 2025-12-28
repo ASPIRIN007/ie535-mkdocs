@@ -245,141 +245,121 @@ In Section 4.1 we built intuition: for a primal **minimization** problem, every 
 
 ## 4.3 The duality theorem
 
-### 4.3.1 A useful decomposition: \(U_i\) and \(V_j\)
+### 4.3.1 A useful decomposition: $U_i$ and $V_j$
 
-!!! tip "Definition box — The quantities \(U_i\) and \(V_j\)"
-    For any vectors \(x\) and \(p\), define
-    - \(U_i \;=\; p_i\,(a_i^\top x - b_i)\)  (one term per **primal constraint**),
-    - \(V_j \;=\; (c_j - p^\top A_j)\,x_j\) (one term per **primal variable**).
+!!! tip "Definition box — The quantities $U_i$ and $V_j$"
+    For any vectors $x$ and $p$, define  
+    - $U_i = p_i\,(a_i^\top x - b_i)$  (one term per **primal constraint**)  
+    - $V_j = (c_j - p^\top A_j)\,x_j$ (one term per **primal variable**)
 
-!!! note "Key box — Why \(U_i\ge 0\) and \(V_j\ge 0\) under feasibility"
-    If \(x\) is **primal feasible** and \(p\) is **dual feasible**, then:
-    - For each constraint \(i\), dual feasibility forces the **sign of \(p_i\)** to match the direction of the primal constraint, so \(p_i(a_i^\top x - b_i)\ge 0\), hence \(U_i\ge 0\).
-    - For each variable \(j\), primal feasibility forces the **sign of \(x_j\)** (e.g., \(x_j\ge 0\), \(x_j\le 0\), or free), and dual feasibility forces the matching inequality/equality on \(p^\top A_j\) relative to \(c_j\); together they imply \((c_j - p^\top A_j)x_j\ge 0\), hence \(V_j\ge 0\).
+!!! note "Key box — Why $U_i\ge 0$ and $V_j\ge 0$ under feasibility"
+    If $x$ is **primal feasible** and $p$ is **dual feasible**, then:
 
-!!! info "Key box — The identity behind weak duality"
+    - For each constraint $i$, dual feasibility forces the **sign of $p_i$** to match the direction of the primal constraint, so $p_i(a_i^\top x - b_i)\ge 0$. Hence $U_i\ge 0$.
+
+    - For each variable $j$, primal feasibility forces the **sign restriction on $x_j$** (e.g., $x_j\ge 0$, $x_j\le 0$, or free), and dual feasibility forces the matching inequality or equality on $p^\top A_j$ relative to $c_j$. Together they imply $(c_j - p^\top A_j)x_j\ge 0$. Hence $V_j\ge 0$.
+
+!!! info "Key box — Identity behind weak duality"
     Expand the sums:
-    - \(\sum_i U_i = \sum_i p_i(a_i^\top x - b_i) = p^\top A x - p^\top b\).
-    - \(\sum_j V_j = \sum_j (c_j - p^\top A_j)x_j = c^\top x - p^\top A x\).
 
-    Adding them gives the key identity
-    \[
-    c^\top x - p^\top b \;=\; \sum_i U_i \;+\; \sum_j V_j \;\ge\; 0.
-    \]
+    - $\sum_i U_i = \sum_i p_i(a_i^\top x - b_i) = p^\top A x - p^\top b$  
+    - $\sum_j V_j = \sum_j (c_j - p^\top A_j)x_j = c^\top x - p^\top A x$
+
+    Adding them gives  
+    $c^\top x - p^\top b = \sum_i U_i + \sum_j V_j \ge 0$.
 
 ---
 
 ### 4.3.2 Weak duality
 
-!!! info "Theorem (Weak duality)"
-    For any **primal feasible** \(x\) and any **dual feasible** \(p\),
-    \[
-    p^\top b \;\le\; c^\top x.
-    \]
-    So every dual feasible solution gives a **lower bound** on the optimal primal cost (for a minimization primal).
+!!! info "Theorem box — Weak duality"
+    For any **primal feasible** $x$ and any **dual feasible** $p$, we have  
+    $p^\top b \le c^\top x$.  
+
+    Therefore, every dual feasible solution provides a **lower bound** on the optimal primal value (for a minimization primal).
 
 !!! note "Intuition box"
-    Dual feasibility ensures the penalty vector \(p\) produces a valid bound; primal feasibility ensures the constraint residuals have the correct sign so the penalty can only increase the cost surrogate. The decomposition \(c^\top x - p^\top b = \sum_i U_i + \sum_j V_j\) makes this algebraic.
+    The gap $c^\top x - p^\top b$ splits into constraint-violation terms $U_i$ and reduced-cost-like terms $V_j$, each of which is $\ge 0$ under feasibility.
 
 ---
 
 ### 4.3.3 Corollaries of weak duality
 
-!!! note "Corollary — Unboundedness implies infeasibility on the other side"
-    - If the primal (minimization) problem is **unbounded** (optimal cost \(=-\infty\)), then the dual cannot have any feasible solution (dual is **infeasible**).
-    - Symmetrically, if the dual (maximization) problem is **unbounded** (optimal cost \(=+\infty\)), then the primal must be **infeasible**.
+!!! note "Corollary box — Unboundedness implies infeasibility on the other side"
+    - If the primal (minimization) problem is **unbounded** (optimal value $=-\infty$), then the dual must be **infeasible**.  
+    - If the dual (maximization) problem is **unbounded** (optimal value $=+\infty$), then the primal must be **infeasible**.
 
-!!! tip "Corollary — Equal costs certify optimality"
-    Suppose \(x\) is primal feasible and \(p\) is dual feasible, and
-    \[
-    c^\top x \;=\; p^\top b.
-    \]
-    Then \(x\) is **optimal** for the primal and \(p\) is **optimal** for the dual.
+!!! tip "Corollary box — Equal costs certify optimality"
+    Suppose $x$ is primal feasible and $p$ is dual feasible, and  
+    $c^\top x = p^\top b$.  
+    Then $x$ is **optimal** for the primal and $p$ is **optimal** for the dual.
 
-    *Reason:* For any primal feasible \(y\), weak duality gives \(p^\top b \le c^\top y\). If \(p^\top b=c^\top x\), then \(c^\top x \le c^\top y\) for all feasible \(y\), so \(x\) is optimal. A symmetric argument gives optimality of \(p\).
+    Reason: for any primal feasible $y$, weak duality gives $p^\top b \le c^\top y$. If $p^\top b = c^\top x$, then $c^\top x \le c^\top y$ for all feasible $y$, so $x$ is optimal. A symmetric argument gives optimality of $p$.
 
 ---
 
 ### 4.3.4 Strong duality (the duality theorem)
 
-!!! info "Key box — Strong duality (what we ultimately want)"
-    Under the usual assumptions (feasibility and existence of an optimal solution),
-    \[
-    \min\{c^\top x : x \text{ primal feasible}\}
-    \;=\;
-    \max\{p^\top b : p \text{ dual feasible}\}.
-    \]
-    Moreover, there exist optimal solutions \(x^*\) and \(p^*\) that achieve equality:
-    \(\;c^\top x^* = (p^*)^\top b\).
+!!! info "Theorem box — Strong duality"
+    Under the standard assumptions (feasibility and existence of an optimal solution), the primal and dual optimal values are equal.  
+    In particular, there exist optimal solutions $x^*$ and $p^*$ such that  
+    $c^\top x^* = (p^*)^\top b$.
 
-!!! note "Proof idea box — Prove it in standard form via simplex, then extend"
-    The book proves strong duality by:
-    1) proving it for a standard-form problem (with independent rows) using the simplex method, and  
-    2) reducing a general LP to an equivalent standard-form LP and invoking equivalence of duals (Theorem 4.2).
+!!! note "Proof idea box — Prove in standard form via simplex, then extend"
+    The book’s approach is:
 
-#### Simplex-based proof sketch in standard form
-Consider the standard-form primal
-- minimize \(e^\top x\)
-- subject to \(Ax=b\), \(x\ge 0\).
+    1) Prove strong duality for a standard-form problem (with independent rows) using simplex.  
+    2) Reduce a general LP to an equivalent standard-form LP and use equivalence of duals.
 
-When simplex terminates (avoiding cycling), it returns an optimal basis \(B\) and basic variables \(x_B=B^{-1}b\).
-Let \(e_B^\top\) be the cost row for the basic variables (here, all ones), and define
-\[
-p^\top \;=\; e_B^\top B^{-1}.
-\]
-Then:
-- **Dual feasibility:** termination implies all reduced costs are nonnegative, which is equivalent to \(p^\top A \le e^\top\).
-- **Equal objective values:**
-  \[
-  p^\top b \;=\; e_B^\top B^{-1}b \;=\; e_B^\top x_B \;=\; e^\top x.
-  \]
-So \(x\) and \(p\) are feasible with equal costs; by the “equal costs certify optimality” corollary, both are optimal and primal optimum \(=\) dual optimum.
+#### Simplex-based proof sketch (standard form)
+Consider the standard-form primal  
+- minimize $e^\top x$  
+- subject to $Ax=b$, $x\ge 0$.  
+
+When simplex terminates, it returns an optimal basis $B$ and $x_B = B^{-1}b$.  
+Define the dual candidate by $p^\top = e_B^\top B^{-1}$.
+
+- **Dual feasibility:** termination implies all reduced costs are nonnegative, which is equivalent to $p^\top A \le e^\top$.  
+- **Equal objective values:** $p^\top b = e_B^\top B^{-1}b = e_B^\top x_B = e^\top x$.
+
+So we have primal-feasible $x$ and dual-feasible $p$ with equal costs, hence both are optimal.
 
 ---
 
 ### 4.3.5 Example 4.4 (mechanical analogy)
 
 !!! info "Intuition box — Ball in a polyhedron"
-    Think of the feasible region \( \{x : a_i^\top x \ge b_i\} \) as walls constraining a ball.
-    Gravity points in direction \(c\) (the objective), so equilibrium occurs at the “lowest” corner \(x^*\), i.e., an optimal solution.
+    Think of the feasible region as walls that constrain a ball. Gravity points in direction $c$, so equilibrium occurs at the “lowest” point $x^*$, i.e., an optimal solution.
 
-    At equilibrium, the net supporting force from the active walls balances gravity, giving
-    \[
-    c \;=\; \sum_i p_i a_i \quad \text{with } p_i \ge 0,
-    \]
-    i.e., \(p\) is dual feasible.
+    At equilibrium, supporting forces from the active walls balance gravity, giving a representation like  
+    $c = \sum_i p_i a_i$ with $p_i \ge 0$.  
+    This corresponds to dual feasibility.
 
-    Walls that do **not** touch the ball exert **no** force, so if \(a_i^\top x^* > b_i\) then \(p_i=0\). This is the intuition behind conditions like \(p_i(b_i-a_i^\top x^*)=0\).
+    Walls that do **not** touch the ball exert **no** force, so if $a_i^\top x^* > b_i$ then $p_i=0$. This is the intuition behind conditions of the form $p_i(a_i^\top x^* - b_i)=0$.
 
-    With these forces,
-    \[
-    p^\top b \;=\; \sum_i p_i b_i \;=\; \sum_i p_i a_i^\top x^* \;=\; c^\top x^*,
-    \]
-    so the dual feasible \(p\) matches the primal cost at \(x^*\), certifying optimality.
+    With these forces, one gets a matching of objective values: $(p^*)^\top b = c^\top x^*$, which certifies optimality.
 
 ---
 
 ### 4.3.6 What can happen to (primal, dual)?
 
 !!! note "Key box — The three statuses"
-    For each of the primal and dual:
+    Each of the primal and dual can be:
     - **Optimal solution exists**, or
-    - **Unbounded** (minimization: optimal cost \(=-\infty\); maximization: \(=+\infty\)), or
+    - **Unbounded** (minimization: value $=-\infty$; maximization: value $=+\infty$), or
     - **Infeasible**.
 
-    This gives \(3\times 3 = 9\) combinations.
-    Strong duality says: if one has an optimal solution, so does the other (with equal optimal cost).
+    Strong duality says: if one has an optimal solution, so does the other, and the optimal values are equal.  
     Weak duality says: if one is unbounded, the other must be infeasible.
 
-!!! tip "Example 4.5 — Both can be infeasible"
-    Primal (infeasible):
-    - minimize \(x_1 + 2x_2\)
-    - subject to \(x_1 + x_2 = 1\), and \(2x_1 + 2x_2 = 3\).
+!!! tip "Example box — Both can be infeasible"
+    Primal (infeasible):  
+    - minimize $x_1 + 2x_2$  
+    - subject to $x_1 + x_2 = 1$, and $2x_1 + 2x_2 = 3$
 
-    Dual (also infeasible):
-    - maximize \(p_1 + 3p_2\)
-    - subject to \(p_1 + 2p_2 = 1\), and \(p_1 + 2p_2 = 2\).
+    Dual (also infeasible):  
+    - maximize $p_1 + 3p_2$  
+    - subject to $p_1 + 2p_2 = 1$, and $p_1 + 2p_2 = 2$
 
-!!! note "Remark — Clark's theorem"
-    Unless **both** problems are infeasible, at least one of them must have an **unbounded feasible set** (see the referenced exercise in the text).
-
+!!! note "Remark box — Clark’s theorem"
+    Unless **both** problems are infeasible, at least one of them must have an **unbounded feasible set** (as referenced in the text/exercise).
