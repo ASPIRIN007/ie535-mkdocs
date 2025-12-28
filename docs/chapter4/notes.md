@@ -242,7 +242,7 @@ In Section 4.1 we built intuition: for a primal **minimization** problem, every 
     A linear program can be rewritten in many equivalent ways (e.g., add slack/surplus variables; replace a free variable by the difference of two nonnegative variables).  
     These different—but equivalent—primal forms may yield different-looking duals, but the resulting dual problems are **equivalent**.
 
-```md
+
 ## 4.3 The duality theorem
 
 ### 4.3.1 A useful decomposition: \(U_i\) and \(V_j\)
@@ -382,4 +382,4 @@ So \(x\) and \(p\) are feasible with equal costs; by the “equal costs certify 
 
 !!! note "Remark — Clark's theorem"
     Unless **both** problems are infeasible, at least one of them must have an **unbounded feasible set** (see the referenced exercise in the text).
-```
+
