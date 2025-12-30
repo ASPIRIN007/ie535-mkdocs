@@ -5,3 +5,6 @@
 
 ## Doubts
 - [Doubts](doubts.md)
+
+## Cheatsheet
+- [Cheatsheet](cheatsheet.md)
