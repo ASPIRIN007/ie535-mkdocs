@@ -1,6 +1,19 @@
-site/
-.venv/
-venv/
-__pycache__/
+﻿# OS
 .DS_Store
 Thumbs.db
+
+# VS Code
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Environments
+.venv/
+venv/
+env/
+.conda/
+
+# MkDocs build output
+site/
